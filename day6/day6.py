@@ -12,17 +12,15 @@ with open(f, 'r') as of:
 
 # report the number of characters from the beginning of the buffer to the
 # end of the first packet-start, and the first message
-def subroutine(stream, n=4):
+def subroutine(stream, n):
     i = 0
-    j = n
     while True:
-        if len(set(stream[i: j])) < n:
+        if len(set(stream[i: i + n])) < n:
             i += 1
-            j += 1
             continue
         break
-    return j
+    return i + n
 
 
-print(f'part A: {subroutine(buffer)}')
+print(f'part A: {subroutine(buffer, 4)}')
 print(f'part B: {subroutine(buffer, 14)}')
