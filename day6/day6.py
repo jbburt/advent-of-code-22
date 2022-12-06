@@ -14,11 +14,8 @@ with open(f, 'r') as of:
 # end of the first packet-start, and the first message
 def subroutine(stream, n):
     i = 0
-    while True:
-        if len(set(stream[i: i + n])) < n:
-            i += 1
-            continue
-        break
+    while len(set(stream[i: i + n])) < n:
+        i += 1
     return i + n
 
 
