@@ -13,29 +13,16 @@ class Dir:
         self.files = dict()
 
     def getsize(self):
-        mysize = self.filesize()
-
-        if not len(self.children):
-            return mysize
-        else:
-            mysize += sum(c.getsize() for c in self.children.values())
-        return mysize
+        return self.filesize() + sum(
+            c.getsize() for c in self.children.values())
 
     def filesize(self):
-        if len(self.files):
-            return sum(self.files.values())
-        return 0
+        return sum(self.files.values())
 
     def cd(self, dirname):
         if dirname == '..':
             return self.parent
-        if dirname not in self.children:
-            self.add_child(dirname)
         return self.children[dirname]
-
-    def add_child(self, dirname):
-        print(dirname)
-        self.children[dirname] = Dir(dirname, self)
 
     def add_file(self, filesize, filename):
         self.files[filename] = int(filesize)
@@ -71,8 +58,6 @@ while queue:
     nextdir = queue.pop()
     if nextdir.id in visited:
         continue
-    else:
-        print(nextdir.name, nextdir.getsize())
     if len(nextdir.children):
         for name, node in nextdir.children.items():
             if node.id != id(nextdir) and node.id not in visited:
