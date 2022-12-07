@@ -1,3 +1,5 @@
+from functools import cached_property
+
 f = 'day7/data.txt'
 
 with open(f, 'r') as of:
@@ -12,9 +14,9 @@ class Dir:
         self.children = dict()
         self.files = dict()
 
-    def getsize(self):
-        return self.filesize() + sum(
-            c.getsize() for c in self.children.values())
+    @cached_property
+    def size(self):
+        return self.filesize() + sum(c.size for c in self.children.values())
 
     def filesize(self):
         return sum(self.files.values())
@@ -66,7 +68,7 @@ while queue:
         for name, node in nextdir.parent.children.items():
             if node.id != id(nextdir) and node.id not in visited:
                 queue.append(node)
-    visited[nextdir.id] = nextdir.getsize()
+    visited[nextdir.id] = nextdir.size
 
 total = 0
 for memloc, size in visited.items():
@@ -77,7 +79,7 @@ print(f'part A: {total}')
 # find directory to delete to run the update
 total_space = 70000000
 req_space = total_space - 30000000
-curr_space = head.getsize()
+curr_space = head.size
 delta = curr_space - req_space
 
 partB = float('inf')
