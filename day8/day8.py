@@ -39,7 +39,7 @@ for j in range(ncol):
                 nvisible += 1
                 visible.add(point)
 
-# rev row-wise
+# rev col-wise
 for j in range(ncol):
     tallest = -1
     for k, height in enumerate(map(int, reversed([r[j] for r in rows]))):
@@ -54,7 +54,7 @@ print(f'part A: {nvisible}')
 
 optimal = 0
 
-# ignore edges as scenic score will be zero
+# ignore edges, as scenic score will be zero
 for row in range(1, nrow - 1):
     for col in range(1, ncol - 1):
 
